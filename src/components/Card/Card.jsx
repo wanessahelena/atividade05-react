@@ -1,32 +1,41 @@
 import styles from "./Card.module.css";
 
 export default function Card({ produto, onSelect }) {
-const freteGratis = produto.preco > 400;
-const indisponivel = produto.estoque === 0;
+  const freteGratis = produto.preco > 400;
+  const indisponivel = produto.estoque === 0;
 
-return (
-    <div className={styles.card} onClick={() => onSelect(produto.nome)}>
-    {freteGratis && (
-        <span className={styles.frete}>Frete Grátis</span>
-    )}
+  return (
+    <div
+      className={styles["card-wrapper"]}
+      onClick={() => onSelect(produto.nome)}
+    >
+      <div className={styles["image-wrapper"]}>
+        <img
+          src={produto.imagem}
+          alt={produto.nome}
+          className={styles["card-image"]}
+        />
 
-    <img src={produto.imagem} alt={produto.nome} />
+        {freteGratis && <span className={styles.badge}>Frete Grátis</span>}
+      </div>
 
-    <h3>{produto.nome}</h3>
+      <div className={styles["text-wrapper"]}>
+        <h3 className={styles["card-title"]}>{produto.nome}</h3>
 
-    <p className={styles.preco}>
-        R$ {produto.preco.toFixed(2).replace(".", ",")}
-    </p>
+        <span className={styles["card-stock"]}>
+          {indisponivel ? "Sem estoque" : `Estoque: ${produto.estoque}`}
+        </span>
 
-    {indisponivel ? (
-        <button className={styles.indisponivel} disabled>
-            Indisponível
-        </button>
-    ) : (
-        <button className={styles.comprar}>
-            Comprar
-        </button>
-    )}
+        <span className={styles["card-price"]}>
+          R$ {produto.preco.toFixed(2).replace(".", ",")}
+        </span>
+      </div>
+
+      {indisponivel ? (
+        <button disabled>Indisponível</button>
+      ) : (
+        <button>Comprar</button>
+      )}
     </div>
-);
+  );
 }
